@@ -1,0 +1,273 @@
+-----------------------------------------------
+Projenin skalasının büyümemesi adına
+Alınan goldlar süreden bağımsız statik olaarak belirlendi. Zamaana bağlı değiller
+Oyuncu ve tower 250 gold, Minyonlar 100 gold, Dragon 500 gold
+
+bufflar 120 saniye
+Red buff 50 ad 15 hp yenileme
+Blue buff 50 ap 15 mp yenileme
+
+Tags
+
+Player
+Minion
+JungleMob
+Targetable
+Dragon
+
+------------------
+
+Basede can uygulanması
+Hero Foto, skill foto
+kule yanında allysine vurunca kule sana dönsün, tower taunt
+
+Skill VFXler 
+
+Alev topu, Kule patlama VFX 
+
+GameMode Yönetimi
+Oyun başlangıcında PC ler ekrana 1-2 saniyelik LOH widget koyacak. Gamemode kaldırma emrini verecek
+HPC TODO üstteki ile ilgili gamestarted fonku
+
+
+-------------------
+Kesinlikle Eklenmesi Gerekenler
+
+----------------
+
+BİLİNMESİ GEREKENLER ----------------------
+
+Bash vurmak için Normal Attackların kullandığı GE ye NormalAttack Asset Tagı eklenmeli
+
+Damage Atılma işlemi -> GE Set Damage GE si kullanılır. İstediğin phy. veya magic tagı assing edilir damage ile birlikte.
+Damage alınma işlemi DamageEFfectParams initialize edilmiş ise GA dan, GA de veya EffectActorden çekilebilir BaseDamage
+
+--------------------
+
+KARAKTER SKİLLERİ
+
+GRUX
+
+P Lifesteal veriyor
+Q  Önündeki alana hasar
+W - Leveli arttıkça Bash Chance veriyor
+E  Hedeflenen konuma zıplar. Konuma inince hasar verir ve düşmanları yavaşlatır.
+R - Hareket Hızı ve Critical Hit chance veriyor belli bir duration
+
+Sparrow
+
+P Level Arttıkça menzil artar
+Q hedeflenen yöne ok fırlatır. Oklar hedefe vurursa hasar verir ve vurduğu hedefleri ileriye fırlatır.
+W Normal attacklar hedefe slow verir
+E Hedeflenen alanda Ok yağmuru - alandaki düşmanlara zamanla hasar verir
+R Ashe ultisi. Magical damage verir ve hedefi stunlar
+
+Narbash
+P Level arttıkça ekstra can
+Q Hedeflenen alana heal basar
+W Hedeflenen alana stun ve hasar
+E yakındaki allyelre ve kendine ek zırh ve büyü direnci
+R Actor sürekli yerde deprem etkisi ve sürekli hasar alana, Alan hasarı = AP nin yüzde 10 u + Skillden gelen damage
+
+Gideon
+P Mana yenilemeyi arttırır
+Q burden ileriye doğru atacak, eğer bir birim öldürürse ap arttıracak, Damage karakterin ap si ile scale oluyor
+W Rumble ultisi gibi, işaretlenen alanda, karakterin rotasyonunu baz alarak bir hat boyunca meteor yağdırıp hasar verir
+ AP ile scale olur, ve alandakilere yakma uygular. Yakma gerçek
+hasar verir
+E hedeflenen konuma ışınlanır
+R Hedeflenen noktada süper nova patlaması yüksek hasar, ap ile scale olur
+
+🔸 Pasif – Ruh Derinliği
+Narbash seviye başına bonus maksimum can kazanır.
+
+Can Artışı: Her seviye başına +50 HP
+
+Toplam Bonus (lvl 18): 850 ekstra HP
+
+Açıklama: Tanklaştırıcı, ama sade ve her zaman aktif bir pasif.
+
+🔹 Q – Can Dalgalanması
+Hedeflenen alandaki tüm müttefikleri iyileştirir.
+
+Kullanım Türü: Hedeflenen zemin (ground target)
+
+Alan: 500 birim çap
+
+İyileştirme: 70/110/150/190 + (%30 AP)
+
+Bekleme Süresi: 10 saniye
+
+Kullanım Örüntüsü: Nişanla → Alan seç → Cast
+
+🔹 W – Ezici Vuruş
+Seçilen alana güçlü bir darbe indirerek düşmanlara hasar verir ve onları sersemletir.
+
+Alan: 400 birim çap
+
+Hasar: 80/130/180/230 + (%40 AP)
+
+Stun Süresi: 1 saniye
+
+Bekleme Süresi: 14 saniye
+
+🔹 E – Ruh Perdesi
+Narbash ve etrafındaki müttefiklere geçici zırh ve büyü direnci verir.
+
+Etki Alanı: 800 birim
+
+Zırh Artışı: +15/20/25/30
+
+Büyü Direnci Artışı: +15/20/25/30
+
+Süre: 4 saniye
+
+Bekleme Süresi: 14 saniye
+
+🔹 R – Yer Sarsıntısı
+Narbash yere güçlü bir darbe indirerek ilk hasarı verir, ardından bir yer aktörü (EarthquakeActor) oluşturup zemine bağlanır. Bu aktör alan etkili sarsıntılarla sürekli hasar verir.
+
+🌪️ Aşama 1: Başlangıç Patlaması
+Hasar: 150/250/350 + (%50 AP)
+
+CC: 0.5 saniyelik slow veya mini knock
+
+Etki Alanı: 600 birim çap
+
+🌪️ Aşama 2: Sismik Etki (Ground Control Actor)
+Süre: 4 saniye
+
+Tick Süresi: Her 0.5 saniyede bir
+
+Hasar: Her tick’te 25/40/55 + (%10 AP)
+
+Alan: 800 birim
+
+Efekt: Yer titremesi (kamera shake, toz partikülleri)
+
+Ekstra: Bu alan içerisinde kalan düşmanlar sürekli yavaşlar (%20)
+
+Toplam Potansiyel Hasar: 8 tick → 200/320/440 + (%80 AP)
+
+Bekleme Süresi: 100 saniye
+
+
+--------------
+
+TESTS
+
+
+Grux Skiller çalışıyormu
+Cooldown çalışıyormu
+UI lar düzgün çalışıyormu
+
+
+
+--------------------
+
+ITEMS
+
+
+1. Doran's Blade
+Tür: Başlangıç – AD (Attack Damage)
+Etki:
+
++16 Attack Damage
+160 Health
++6 LifeSteal
+
+2. Doran's Ring
+Tür: Başlangıç – AP (Ability Power)
+Etki:
+
++30 Ability Power
+100 Health
+100 Mana
++2 Mana regen
+
+3. Mjölnir c
+Tür: Ana item – AD + Chain Lightning
+Etki:
+850 birim, maks 6 düşman  100 damage, 6 saniye CD
+
++40 Attack Damage
++25% Attack Speed
+
+Pasif – Zincir Şimşek: Her 4. saldırı, 3 düşmana kadar sıçrayan yıldırım hasarı verir (50 magic damage).
+Açıklama: Hem attack speed hem de AoE (alan) hasar sağlayan eşsiz bir eşya.
+
+Proc Chance: 25%
+Bounce Distance: 650
+Number of Bounces: 12
+Bounce Interval: 0.25
+Damage: 180
+Illusion Damage Multiplier: 1.5
+
+4.Rabadon’s Deathcap m
+Tür: AP (Ability Power – Büyü Gücü)
+Etki:
+
++120 Ability Power
+
+Pasif – Arcane Overload: Toplam Ability Power’ı %35 artırır.
+
+5. Bloodthirster
+Tür: AD / Lifesteal
+Etki:
+
++55 Attack Damage
++20% Lifesteal
+
+6. Lord Dominik’s Edge (veya doğrudan Dominik’s) c
+Tür: AD / Anti-Tank / Armor Penetration
+Etki:
+
++35 Attack Damage
++20% Critical Strike
++30% Armor Penetration
+
+Pasif – Ezici Güç: %150 bonus damage uygulaması, maksimum canı sizden yüksek olan hedeflere karşı %15 bonus fiziksel hasar verir.
+Açıklama: Tanklara karşı ADC'lerin geç safha silahı. Kritik vuruş yapan ama aynı zamanda yüksek zırhı delen bir yapı sağlar.
+
+
+7.Thornmail t 
+
++350 Health
+
++60 Armor
+
+Pasif – Saldıranlara verdiğin hasarın %15’ini yansıtır
+Pasif – Yansıyan hasar, iyileşmeyi %40 azaltır (3 saniye)
+
+
+8. Void Staff m 
+Tür: AP / Magic Penetration
+Etki:
+
++70 Ability Power
+
++40% Magic Penetration (hedefin büyü direncinin %40’ını yok sayar)
+
+
+
+9. Spirit Visage - ruh gömleği - t
+Tür: Tank / AP Savunma
+Etki:
+
++450 Health
+
++55 Magic Resist
+
+
+
+-------------------
+
+
+Araştırmalar ---------------------
+
+static const HDamageStatics& DamageStatics()
+{
+	static HDamageStatics DStatics;
+	return DStatics;
+} Static const
+
